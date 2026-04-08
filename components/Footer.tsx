@@ -1,0 +1,29 @@
+"use client";
+
+import Link from "next/link";
+
+export default function Footer() {
+  return (
+    <footer className="pt-20 pb-10 border-t border-gray-100">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col items-center">
+        
+        <div className="flex gap-8 mb-12 font-mono">
+          <Link href="#" className="text-sm font-bold hover:underline italic">Connect on LinkedIn</Link>
+          <Link href="#" className="text-sm font-bold hover:underline italic">GitHub</Link>
+          <Link href="#" className="text-sm font-bold hover:underline italic">Twitter / X</Link>
+        </div>
+
+        <div className="w-full flex flex-col md:flex-row justify-between items-center text-gray-400 text-[10px] font-bold uppercase tracking-widest gap-4 font-mono">
+           <p>© Copyright 2026 — Lukas Lagler</p>
+           <p>Designed and engineered with precision in Switzerland.</p>
+        </div>
+
+        <div className="mt-20 w-full flex justify-center">
+           <h1 className="text-[15vw] md:text-[20vw] font-black tracking-tighter text-foreground leading-none select-none italic">
+              LAGLER
+           </h1>
+        </div>
+      </div>
+    </footer>
+  );
+}
