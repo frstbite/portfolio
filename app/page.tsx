@@ -3,7 +3,6 @@ import Hero from "@/components/Hero";
 import CaseStudies from "@/components/CaseStudies";
 import PersonalProject from "@/components/PersonalProject";
 import AboutGrid from "@/components/AboutGrid";
-import BlogList from "@/components/BlogList";
 import Footer from "@/components/Footer";
 
 export default function Home() {

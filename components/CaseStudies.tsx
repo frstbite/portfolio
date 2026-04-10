@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { motion } from "framer-motion";
 
 interface Project {
   id: string;
@@ -56,9 +56,15 @@ const projects: Project[] = [
   }
 ];
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({ project, index }: { project: Project, index: number }) {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 py-20 border-b border-gray-100 last:border-b-0">
+    <motion.div 
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.8, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+      className="grid grid-cols-1 lg:grid-cols-2 gap-12 py-20 border-b border-gray-100 last:border-b-0"
+    >
       <div className="flex flex-col justify-between order-2 lg:order-1">
         <div>
           <div className="flex flex-wrap gap-2 mb-8">
@@ -92,12 +98,20 @@ function ProjectCard({ project }: { project: Project }) {
         </div>
       </div>
       
-      <div className={`aspect-[4/3] rounded-3xl ${project.imageColor} flex items-center justify-center p-12 order-1 lg:order-2 overflow-hidden group`}>
-        <div className="w-full h-full bg-white rounded-xl shadow-2xl transform group-hover:scale-[1.02] transition-transform duration-500 flex items-center justify-center text-gray-200 font-bold text-2xl">
+      <motion.div 
+        whileHover={{ scale: 0.98 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className={`aspect-[4/3] rounded-3xl ${project.imageColor} flex items-center justify-center p-12 order-1 lg:order-2 overflow-hidden group cursor-pointer`}
+      >
+        <motion.div 
+          whileHover={{ scale: 1.05, rotate: -1 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="w-full h-full bg-white rounded-xl shadow-2xl flex items-center justify-center text-gray-200 font-bold text-2xl"
+        >
            Engineering Artifact
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -105,15 +119,21 @@ export default function CaseStudies() {
   return (
     <section id="work" className="py-32">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-20">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-20"
+        >
            <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4 font-mono">CODE & SYSTEMS</p>
            <h2 className="text-4xl md:text-5xl font-bold mb-4">Selected Engineering Projects</h2>
            <p className="text-gray-500 italic">Designing for scale and performance across the stack.</p>
-        </div>
+        </motion.div>
         
         <div className="flex flex-col">
-          {projects.map(project => (
-            <ProjectCard key={project.id} project={project} />
+          {projects.map((project, index) => (
+            <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>
       </div>
