@@ -110,8 +110,10 @@ export default function AboutGrid() {
   return (
     <section id="about" className="py-32 overflow-hidden bg-background">
       <div className="max-w-7xl mx-auto px-6 flex flex-col items-center">
+        <div className="flex items-center gap-4 mb-4 bg-gray-100 rounded-full px-4 py-2">
+          <p className="text-xs font-bold uppercase tracking-widest text-foreground/40">About Me</p>
+        </div>
         <div className="text-center mb-16">
-          <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4 font-mono">ABOUT ME</p>
           <h2 className="text-4xl md:text-5xl font-bold mb-4">What I Bring to the Table</h2>
           <p className="text-gray-500 italic max-w-2xl mx-auto">Code, logic, and the ancient art of looking productive while builds run.</p>
         </div>
@@ -123,7 +125,7 @@ export default function AboutGrid() {
               <motion.button
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 1.2, filter: "blur(10px)" }}
+                exit={{ opacity: 0, scale: 1.2, filter: "blur(30px)" }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 onClick={() => setIsSpread(true)}
                 className="z-[100] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-10 py-5 bg-foreground text-background rounded-full font-bold shadow-[0_0_50px_rgba(0,0,0,0.2)] hover:scale-110 active:scale-95 transition-transform"
@@ -138,8 +140,8 @@ export default function AboutGrid() {
             layout
             className={cn(
               "w-full h-full transition-all duration-700",
-              isSpread 
-                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-[250px] md:auto-rows-[300px]" 
+              isSpread
+                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-[250px] md:auto-rows-[300px]"
                 : "relative flex items-center justify-center min-h-[500px]"
             )}
           >
@@ -154,7 +156,7 @@ export default function AboutGrid() {
                   y: isSpread ? 0 : card.y,
                   scale: isSpread ? 1 : 0.9 - index * 0.02,
                   opacity: isSpread ? 1 : 0.8 - index * 0.1,
-                  filter: isSpread ? "blur(0px)" : "blur(4px)",
+                  filter: "blur(0px)",
                 }}
                 transition={{
                   type: "spring",
@@ -167,9 +169,9 @@ export default function AboutGrid() {
                   card.className,
                   !isSpread && "absolute w-[300px] h-[380px] md:w-[350px] md:h-[450px] shadow-2xl cursor-pointer"
                 )}
-                style={{ 
+                style={{
                   zIndex: isSpread ? 10 : cards.length - index,
-                  gridArea: isSpread ? "auto" : "1 / 1 / 2 / 2" 
+                  gridArea: isSpread ? "auto" : "1 / 1 / 2 / 2"
                 }}
                 onClick={() => !isSpread && setIsSpread(true)}
               >

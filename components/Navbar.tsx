@@ -81,7 +81,7 @@ export default function Navbar() {
           >
             <Link
               href="/resume.pdf"
-              className="px-5 py-2 rounded-full border border-foreground text-sm font-medium hover:bg-foreground hover:text-background transition-all duration-300"
+              className="px-8 py-4 bg-black text-white rounded-full hover:opacity-90 transition-all shadow-lg active:scale-95"
             >
               Download CV
             </Link>

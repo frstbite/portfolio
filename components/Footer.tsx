@@ -14,14 +14,13 @@ export default function Footer() {
           viewport={{ once: true }}
           className="flex gap-8 mb-12 font-mono"
         >
-          <Link href="#" className="text-sm font-bold hover:underline italic">Connect on LinkedIn</Link>
-          <Link href="#" className="text-sm font-bold hover:underline italic">GitHub</Link>
-          <Link href="#" className="text-sm font-bold hover:underline italic">Twitter / X</Link>
+          <Link href="https://www.linkedin.com/in/lukaslagler/" className="text-sm font-bold hover:underline italic">Connect on LinkedIn</Link>
+          <Link href="https://github.com/frstbite" className="text-sm font-bold hover:underline italic">GitHub</Link>
         </motion.div>
 
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="w-full flex flex-col md:flex-row justify-between items-center text-gray-400 text-[10px] font-bold uppercase tracking-widest gap-4 font-mono">
            <p>© Copyright 2026 — Lukas Lagler</p>
-           <p>Designed and engineered with precision in Switzerland.</p>
+           <p>Vibecoded with precision in Switzerland.</p>
         </motion.div>
 
         <div className="mt-20 w-full flex justify-center">

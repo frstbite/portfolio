@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import ConfettiButton from "./ConfettiButton";
 import { motion, Variants } from "framer-motion";
+import { ImageTrail } from "@/components/ui/image-trail";
+import ShinyText from "@/components/ui/ShinyText";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -41,68 +43,83 @@ const floatingVariants = (delay: number): Variants => ({
 
 export default function Hero() {
   const [copied, setCopied] = useState(false);
+  const containerRef = useRef<HTMLElement>(null);
 
-  const copyEmail = () => {
+  const images = [
+    "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05",
+    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+    "https://images.unsplash.com/photo-1426604966848-d7adac402bff",
+    "https://images.unsplash.com/photo-1472214103451-9374bd1c798e",
+    "https://images.unsplash.com/photo-1469474968028-56623f02e42e",
+    "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d",
+    ].map((url) => `${url}?auto=format&fit=crop&w=300&q=80`);
+
+    const copyEmail = () => {
     navigator.clipboard.writeText("hi@lukaslagler.com");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-  };
+    };
 
-  return (
-    <section className="relative pt-32 pb-44 overflow-hidden">
+    return (
+    <section ref={containerRef} className="relative min-h-screen flex items-center justify-center">
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <ImageTrail containerRef={containerRef}>
+          {images.map((url, index) => (
+            <div
+              key={index}
+              className="flex relative overflow-hidden w-24 h-24 rounded-lg shadow-xl"
+            >
+              <img
+                src={url}
+                alt={`Trail image ${index + 1}`}
+                className="object-cover absolute inset-0 w-full h-full"
+              />
+            </div>
+          ))}
+        </ImageTrail>
+      </div>
+
       <motion.div 
-        className="max-w-7xl mx-auto px-6 flex flex-col items-center text-center"
+        className="max-w-7xl mx-auto px-6 flex flex-col items-center text-center relative z-10"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         
         {/* Pill Label */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gray-100 border border-gray-200 text-sm font-medium mb-12 overflow-hidden whitespace-nowrap max-w-[280px]">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gray-100 border border-gray-200 text-sm font-medium mb-6 overflow-hidden whitespace-nowrap max-w-[300px]">
           <span className="w-2 h-2 rounded-full bg-blue-500"></span>
           <div className="flex whitespace-nowrap gap-4">
-             <span>Currently Experimenting with AI</span>
+             <ShinyText 
+                text="Currently experimenting with AI" 
+                speed={2} 
+                delay={0}
+                color="#0f0f0f"
+                shineColor="#b5b3b3"
+                spread={120}
+                direction="left"
+                yoyo={false}
+                pauseOnHover={false}
+                disabled={false}
+             />
           </div>
         </div>
 
-        {/* Floating elements */}
-        <motion.div 
-          className="absolute top-40 left-[10%] hidden lg:block shadow-xl rounded-lg overflow-hidden border border-gray-100"
-          variants={floatingVariants(0)}
-          animate="animate"
-        >
-           <div className="w-24 h-16 bg-gray-100"></div>
-        </motion.div>
-        <motion.div 
-          className="absolute top-60 right-[15%] hidden lg:block shadow-xl rounded-lg overflow-hidden border border-gray-100"
-          variants={floatingVariants(1)}
-          animate="animate"
-        >
-           <div className="w-20 h-28 bg-gray-100"></div>
-        </motion.div>
-        <motion.div 
-          className="absolute bottom-20 left-[15%] hidden lg:block shadow-xl rounded-lg overflow-hidden border border-gray-100"
-          variants={floatingVariants(0.5)}
-          animate="animate"
-        >
-           <div className="w-32 h-20 bg-gray-100"></div>
-        </motion.div>
 
         {/* Main Title */}
         <motion.h1 
           variants={itemVariants}
-          className="text-6xl md:text-8xl font-bold tracking-tight max-w-4xl leading-[1.1] mb-8"
+          className="text-6xl md:text-8xl font-bold tracking-tight max-w-5xl leading-[1.1] mb-8"
         >
-          I&apos;m Lukas, <br />
-          a <span className="inline-flex items-center gap-4">
-            Software
-            <motion.div 
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              className="w-12 h-12 md:w-20 md:h-20 rounded-full bg-gray-200 overflow-hidden inline-block align-middle transform translate-y-[-4px] cursor-pointer"
+          <span className="inline-flex items-center">I&apos;m Lukas
+            <div
+              className="w-12 h-12 md:w-32 md:h-20 rounded-full bg-gray-200 overflow-hidden inline-block align-middle ml-4 border-2 border-foreground drop-shadow-md"
             >
-              {/* Profile Image Placeholder */}
-            </motion.div>
-          </span> Engineer
+            </div>
+            ,
+          </span>
+          <br />
+          a Software Engineer
         </motion.h1>
 
         <motion.p 

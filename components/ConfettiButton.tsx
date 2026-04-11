@@ -57,7 +57,7 @@ export default function ConfettiButton({
         ref={buttonRef}
         onClick={fireConfetti}
         className={cn(
-          "relative px-8 py-4 rounded-full font-bold transition-all active:scale-95 shadow-sm border",
+          "relative px-8 py-4 rounded-full font-bold transition-all active:scale-95 shadow-sm border bg-background",
           className
         )}
       >
