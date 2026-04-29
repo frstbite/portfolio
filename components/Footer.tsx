@@ -14,8 +14,8 @@ export default function Footer() {
           viewport={{ once: true }}
           className="flex gap-8 mb-12 font-mono"
         >
-          <Link href="https://www.linkedin.com/in/lukaslagler/" className="text-sm font-bold hover:underline italic">Connect on LinkedIn</Link>
-          <Link href="https://github.com/frstbite" className="text-sm font-bold hover:underline italic">GitHub</Link>
+          <Link href="https://www.linkedin.com/in/lukaslagler/" target="_blank" rel="noopener noreferrer" className="text-sm font-bold hover:underline italic">Connect on LinkedIn</Link>
+          <Link href="https://github.com/frstbite" target="_blank" rel="noopener noreferrer" className="text-sm font-bold hover:underline italic">GitHub</Link>
         </motion.div>
 
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="w-full flex flex-col md:flex-row justify-between items-center text-gray-400 text-[10px] font-bold uppercase tracking-widest gap-4 font-mono">
@@ -29,7 +29,7 @@ export default function Footer() {
              whileInView={{ y: 0, opacity: 1 }}
              viewport={{ once: true, margin: "200px" }}
              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-             className="text-[15vw] md:text-[20vw] font-black tracking-tighter text-foreground leading-none select-none italic"
+             className="text-[20vw] font-black tracking-tighter text-foreground leading-none select-none italic"
            >
               LAGLER
            </motion.h1>

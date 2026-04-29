@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -281,6 +281,17 @@ function makeCards(isSpread: boolean) {
 export default function AboutGrid() {
   const [isSpread, setIsSpread] = useState(false);
   const cards = makeCards(isSpread);
+
+  useEffect(() => {
+    const reset = () => setIsSpread(false);
+    const handlePageShow = (e: PageTransitionEvent) => { if (e.persisted) reset(); };
+    window.addEventListener("pageshow", handlePageShow);
+    window.addEventListener("popstate", reset);
+    return () => {
+      window.removeEventListener("pageshow", handlePageShow);
+      window.removeEventListener("popstate", reset);
+    };
+  }, []);
 
   return (
     <section id="about" className="py-32 overflow-hidden bg-[#F0F0F0]">
