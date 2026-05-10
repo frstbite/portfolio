@@ -3,11 +3,12 @@
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import {
   SiReact, SiNextdotjs, SiTypescript, SiTailwindcss,
   SiNodedotjs, SiPython, SiExpo, SiAppwrite, SiApple,
+  SiSwift, SiSupabase,
 } from "react-icons/si";
 
 const TAG_ICONS: Record<string, React.ElementType> = {
@@ -20,6 +21,8 @@ const TAG_ICONS: Record<string, React.ElementType> = {
   "Expo": SiExpo,
   "Appwrite": SiAppwrite,
   "iOS": SiApple,
+  "SwiftUI": SiSwift,
+  "Supabase": SiSupabase,
 };
 
 interface Project {
@@ -39,72 +42,70 @@ const projects: Project[] = [
   {
     id: "0",
     index: "00",
-    title: "Frynds — social status app.",
+    title: "Meteor — Goal-based savings.",
     company: "Personal Project",
-    description: "A real-time social status app for iOS that lets friends share what they're up to — built solo from idea to App Store in under 3 months.",
-    tags: ["React Native", "Appwrite", "iOS"],
-    year: "2025",
-    link: "https://apps.apple.com/us/app/frynds-social-status/id6747308656",
-    mockup: "/frynds-mockup.png",
-    mockupAlt: "Frynds App Mockup",
+    description: "A savings app that organizes your finances into clear, actionable goals with real-time progress tracking and smart insights.",
+    tags: ["SwiftUI", "Supabase", "iOS"],
+    year: "2026",
+    link: "https://www.meteorsaves.com/",
+    mockup: "/meteor-mockup2.png",
+    mockupAlt: "Meteor App Showcase",
   },
   {
     id: "1",
     index: "01",
-    title: "Scalable microservices architecture.",
-    company: "Lukas.dev",
-    description: "Designed and implemented a microservices backend capable of handling high-throughput workloads, with clean service boundaries and a shared SQL data layer.",
-    tags: ["Node.js", "SQL", "Architecture"],
-    year: "2024",
+    title: "FitCheck — AI outfit feedback.",
+    company: "Personal Project",
+    description: "An AI-powered iOS app that gives objective, data-driven outfit feedback. No trends, no opinions — just clarity on fit, color, and style.",
+    tags: ["SwiftUI", "Supabase", "iOS"],
+    year: "2026",
+    link: "https://www.tryfitcheck.co/",
+    mockup: "/fitcheck-mockup2.png",
+    mockupAlt: "FitCheck App Showcase",
   },
   {
     id: "2",
     index: "02",
-    title: "High-performance SaaS frontend.",
-    company: "SaaS Labs",
-    description: "Rebuilt a sluggish React app into a snappy Next.js SaaS dashboard with sub-second load times, full TypeScript coverage, and a polished Tailwind design system.",
-    tags: ["Next.js", "TypeScript", "Tailwind"],
-    year: "2024",
+    title: "Cortisol Video Maker — Viral Clip Creator.",
+    company: "Team Project",
+    description: "A community tool for generating low-cortisol style transformation videos with synced music and dynamic text overlays.",
+    tags: ["Python", "Next.js", "Movielite"],
+    year: "2026",
+    link: "https://github.com/King-Phil/low_cortisol_video",
+    mockup: "/low-cortisol-mockup.png",
+    mockupAlt: "Cortisol Video Maker Mockup",
   },
   {
     id: "3",
     index: "03",
-    title: "AI content generation engine.",
-    company: "InnovateAI",
-    description: "Built an end-to-end AI pipeline that generates, scores, and publishes marketing content autonomously — cutting content production time by 80%.",
-    tags: ["AI", "Python", "Automation"],
-    year: "2023",
-  },
-  {
-    id: "4",
-    index: "04",
-    title: "Cross-platform mobile app.",
-    company: "App Studio",
-    description: "Delivered a cross-platform mobile app for both iOS and Android using Expo, with shared business logic, native feel, and offline-first data sync.",
-    tags: ["Expo", "React Native", "Mobile"],
-    year: "2023",
-  },
+    title: "Frynds — social status app.",
+    company: "Personal Project",
+    description: "A real-time social status app for iOS that lets friends share what they're up to.",
+    tags: ["React Native", "Appwrite", "iOS"],
+    year: "2025",
+    link: "https://apps.apple.com/us/app/frynds-social-status/id6747308656",
+    mockup: "/frynds-mockup2.png",
+    mockupAlt: "Frynds App Mockup",
+  }
 ];
 
 function ViewWorkButton({ href, disabled }: { href?: string; disabled?: boolean }) {
   const ref = useRef<HTMLButtonElement>(null);
   const [origin, setOrigin] = useState<{ x: number; y: number } | null>(null);
   const [expanding, setExpanding] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => { setMounted(true); }, []);
+  const mounted = useSyncExternalStore(() => () => {}, () => true, () => false);
 
   function handleClick() {
     if (disabled || !href || expanding) return;
     const el = ref.current;
     if (!el) return;
+    window.open(href, "_blank");
     const rect = el.getBoundingClientRect();
     setOrigin({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
     setExpanding(true);
   }
 
   function handleAnimationComplete() {
-    if (href) window.open(href, "_blank");
     setExpanding(false);
     setOrigin(null);
   }
@@ -134,8 +135,8 @@ function ViewWorkButton({ href, disabled }: { href?: string; disabled?: boolean 
         whileTap={disabled ? {} : { scale: 0.97 }}
         transition={{ type: "spring", stiffness: 400, damping: 20 }}
         className={`group flex items-center gap-2 px-7 py-4 rounded-full text-sm font-semibold transition-colors select-none ${disabled
-            ? "bg-black/8 text-black/30 cursor-default"
-            : "bg-black text-white cursor-pointer hover:bg-black/80"
+          ? "bg-black/8 text-black/30 cursor-default"
+          : "bg-black text-white cursor-pointer hover:bg-black/80"
           }`}
       >
         View Work
@@ -169,7 +170,7 @@ function TagChip({ tag, Icon, delay }: { tag: string; Icon?: React.ElementType; 
       <AnimatePresence>
         {hovered && Icon && (
           <motion.div
-            className="absolute -top-6 left-1/2 -translate-x-1/2 bg-black text-white rounded-full px-3 py-1.5 flex items-center gap-1.5 whitespace-nowrap pointer-events-none z-10"
+            className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white rounded-full px-3 py-2 flex items-center gap-1.5 whitespace-nowrap pointer-events-none z-10"
             initial={{ opacity: 0, y: 6, scale: 0.85, rotate: 0 }}
             animate={{ opacity: 1, y: 0, scale: 1, rotate: -5 }}
             exit={{ opacity: 0, y: 4, scale: 0.9 }}
@@ -250,7 +251,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                   alt={project.mockupAlt ?? project.title}
                   fill
                   sizes="(max-width: 768px) 100vw, 65vw"
-                  className="object-contain p-4"
+                  className="object-cover"
                 />
               </div>
             ) : (

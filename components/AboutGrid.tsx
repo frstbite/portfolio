@@ -1,54 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { LayoutGrid, Zap, CircleDot, UserRound, Mail, Globe } from "lucide-react";
+import { CircleDot, UserRound, Mail, Globe } from "lucide-react";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 
 /* ─── inline mini-UI visuals ─────────────────────────────── */
-
-function ProjectCards() {
-  return (
-    <div className="w-full bg-gray-50 rounded-2xl p-3 border border-gray-100 flex gap-2.5">
-      <div className="flex-1 rounded-xl overflow-hidden bg-white shadow-sm border border-gray-100">
-        <div className="relative h-[80px]">
-          <Image
-            src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=400&auto=format&fit=crop"
-            alt="Project"
-            fill
-            className="object-cover"
-          />
-          <span className="absolute top-2 left-2 bg-white text-[9px] font-semibold text-gray-700 px-1.5 py-0.5 rounded-full shadow-sm">
-            Shipped ✓
-          </span>
-        </div>
-        <div className="p-2">
-          <p className="text-[10px] font-semibold text-gray-800 truncate">Frynds App</p>
-          <p className="text-[9px] text-gray-400">Mobile · React Native</p>
-        </div>
-      </div>
-      <div className="flex-1 rounded-xl overflow-hidden bg-white shadow-sm border border-gray-100">
-        <div className="relative h-[80px]">
-          <Image
-            src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=400&auto=format&fit=crop"
-            alt="Project"
-            fill
-            className="object-cover"
-          />
-          <span className="absolute top-2 left-2 bg-white text-[9px] font-semibold text-gray-700 px-1.5 py-0.5 rounded-full shadow-sm">
-            Live ✓
-          </span>
-        </div>
-        <div className="p-2">
-          <p className="text-[10px] font-semibold text-gray-800 truncate">SaaS Dashboard</p>
-          <p className="text-[9px] text-gray-400">Web · Next.js</p>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function SkillsVisual({ animate }: { animate: boolean }) {
   const skills = [
@@ -103,49 +62,27 @@ function MetricsDashboard({ animate }: { animate: boolean }) {
     <div className="h-full flex flex-col bg-gray-50 rounded-2xl border border-gray-100 overflow-hidden">
       <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
         <div className="flex items-center gap-2">
-          <div className="w-5 h-5 rounded-full bg-gray-200" />
+          <div className="w-5 h-5 rounded-full bg-gray-200">
+            <Image
+              src="/pp.jpg"
+              alt="Lukas"
+              width={128}
+              height={128}
+              className="w-full h-full object-cover object-center rounded-full"
+            />
+          </div>
           <span className="text-[10px] font-semibold text-gray-600">frstbite · Projects</span>
         </div>
-        <span className="text-[9px] bg-gray-900 text-white px-2 py-0.5 rounded-full">Export</span>
       </div>
       <div className="px-4 py-3 flex-1 flex flex-col justify-between">
         <div>
           <p className="text-[9px] text-gray-400 mb-1">Total shipped</p>
-          <p className="text-xl font-bold text-gray-900">12+ Products</p>
-          <p className="text-[9px] text-green-600 font-medium">↑ 4 this year</p>
+          <p className="text-xl font-bold text-gray-900">7 Products</p>
+          <div className="inline-block px-2 py-1 bg-blue-100 rounded-full">
+            <p className="text-[9px] text-blue-700 font-medium">↑ 3 this year</p>
+          </div>
         </div>
         <BarChart animate={animate} />
-      </div>
-    </div>
-  );
-}
-
-function ContactVisual() {
-  const people = [
-    { name: "Jana K.", role: "Co-founder", flag: "🇨🇭" },
-    { name: "Marc D.", role: "CTO", flag: "🇩🇪" },
-    { name: "Sarah P.", role: "PM", flag: "🇬🇧" },
-    { name: "Tom B.", role: "Investor", flag: "🇺🇸" },
-  ];
-  return (
-    <div className="h-full flex flex-col bg-gray-50 rounded-2xl border border-gray-100 overflow-hidden">
-      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
-        <span className="text-[10px] font-semibold text-gray-600">Network</span>
-        <span className="text-[9px] text-gray-400 underline cursor-pointer">See All</span>
-      </div>
-      <div className="flex-1 divide-y divide-gray-100">
-        {people.map(({ name, role, flag }) => (
-          <div key={name} className="flex items-center justify-between px-4 py-2">
-            <div>
-              <p className="text-[10px] font-semibold text-gray-800">{name}</p>
-              <p className="text-[9px] text-gray-400">{role}</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-sm">{flag}</span>
-              <span className="text-[9px] bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">Connect</span>
-            </div>
-          </div>
-        ))}
       </div>
     </div>
   );
@@ -155,32 +92,14 @@ function ContactVisual() {
 
 function makeCards(isSpread: boolean) {
   return [
-    // {
-    //   id: 1,
-    //   gridClass: "md:col-span-2 md:row-span-1",
-    //   bg: "bg-white",
-    //   rotation: -7, x: -30, y: -15,
-    //   content: (
-    //     <div className="h-full flex flex-col p-7">
-    //       <Zap className="mb-5 text-gray-950" size={22} />
-    //       <h3 className="text-[21px] font-bold text-gray-950 leading-snug mb-2">0→1 Product Builder</h3>
-    //       <p className="text-[13px] text-gray-400 leading-relaxed max-w-[220px]">
-    //         Building products for fast-scaling startups — from blank canvas to shipped.
-    //       </p>
-    //       <div className="mt-auto pt-5">
-    //         <ProjectCards />
-    //       </div>
-    //     </div>
-    //   ),
-    // },
     {
-      id: 4,
+      id: 1,
       gridClass: "md:col-span-3 md:row-span-1",
       bg: "bg-white",
       rotation: -5, x: -20, y: -10,
       content: (
-        <div className="h-full flex gap-6 p-7 py-7">
-          <div className="flex flex-col justify-between flex-1 min-w-0 h-full">
+        <div className="h-full flex flex-col md:flex-row gap-6 p-7 py-7">
+          <div className="flex flex-col justify-between flex-1 min-w-0">
             <div>
               <UserRound className="mb-5 text-gray-950" size={22} />
               <h3 className="text-[21px] font-bold text-gray-950 leading-snug mb-2">Design with intent</h3>
@@ -188,24 +107,24 @@ function makeCards(isSpread: boolean) {
                 Designing for outcomes, not deliverables. Every decision starts with the user.
               </p>
             </div>
-            <button onClick={() => { window.location.href = "mailto:luke.lagler@bluewin.ch"; }} className="mt-6 w-fit bg-white border border-gray-200 text-gray-800 text-xs font-semibold px-5 py-2.5 rounded-full hover:bg-gray-50 transition-colors shadow-sm">
+            <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x6c;&#x75;&#x6b;&#x65;&#x2e;&#x6c;&#x61;&#x67;&#x6c;&#x65;&#x72;&#x40;&#x62;&#x6c;&#x75;&#x65;&#x77;&#x69;&#x6e;&#x2e;&#x63;&#x68;&#x3f;&#x73;&#x75;&#x62;&#x6a;&#x65;&#x63;&#x74;&#x3d;&#x48;&#x65;&#x79;&#x25;&#x32;&#x30;&#x4c;&#x75;&#x6b;&#x61;&#x73;" className="mt-6 w-fit bg-white border border-gray-200 text-gray-800 text-xs font-semibold px-5 py-2.5 rounded-full hover:bg-gray-50 transition-colors shadow-sm">
               Get in touch
-            </button>
+            </a>
           </div>
-          <div className="w-[55%] shrink-0 h-full">
+          <div className="w-full md:w-[55%] shrink-0 md:h-full h-[200px]">
             <MetricsDashboard animate={isSpread} />
           </div>
         </div>
       ),
     },
     {
-      id: 3,
+      id: 2,
       gridClass: "md:col-span-3 md:row-span-2",
       bg: "bg-white",
       rotation: 4, x: 20, y: 10,
       content: (
-        <div className="relative h-full flex flex-col p-7 pt-16 overflow-hidden">
-          <h3 className="text-5xl font-extrabold text-gray-950 text-center mb-2 relative z-10">
+        <div className="relative h-full min-h-[480px] sm:min-h-0 flex flex-col p-5 sm:p-7 pt-10 sm:pt-16 overflow-hidden">
+          <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-950 text-center mb-2 relative z-10">
             <span className="relative inline-block">
               Clarity
               <motion.span
@@ -214,19 +133,19 @@ function makeCards(isSpread: boolean) {
                 animate={{ clipPath: isSpread ? "inset(0 0% 0 0)" : "inset(0 100% 0 0)" }}
                 transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
               >
-                <Image src="/underline-clarity.svg" alt="" fill={false} width={120} height={12} className="w-full" unoptimized />
+                <Image src="/underline-clarity.svg" alt="" fill={false} width={120} height={12} className="w-full h-auto" unoptimized />
               </motion.span>
             </span>
             {" Builds Trust"}
           </h3>
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/5 w-4/5 drop-shadow-2xl" style={{ height: "102%" }}>
-            <Image src="/frynds-mockup.png" alt="Frynds" fill className="object-contain object-bottom" />
+          <div className="relative flex-1 w-full mt-4">
+            <Image src="/frynds-mockup.png" alt="Frynds" fill sizes="(max-width: 768px) 80vw, 33vw" className="object-contain object-bottom drop-shadow-2xl" />
           </div>
         </div>
       ),
     },
     {
-      id: 2,
+      id: 3,
       gridClass: "md:col-span-2 md:row-span-1",
       bg: "bg-white",
       rotation: 6, x: -10, y: 20,
@@ -235,7 +154,7 @@ function makeCards(isSpread: boolean) {
           <CircleDot className="mb-5 text-gray-950" size={22} />
           <h3 className="text-[21px] font-bold text-gray-950 leading-snug mb-2">Full-Stack Engineer</h3>
           <p className="text-[13px] text-gray-400 leading-relaxed">
-            From database schema to polished UI — I own the whole stack.
+            From database schema to polished UI — I do it all.
           </p>
           <div className="mt-auto pt-5">
             <SkillsVisual animate={isSpread} />
@@ -244,7 +163,7 @@ function makeCards(isSpread: boolean) {
       ),
     },
     {
-      id: 5,
+      id: 4,
       gridClass: "md:col-span-1 md:row-span-1",
       bg: "bg-white",
       rotation: 8, x: 25, y: -5,
@@ -256,7 +175,6 @@ function makeCards(isSpread: boolean) {
             {[
               { icon: FaGithub, label: "GitHub", href: "https://github.com/frstbite" },
               { icon: FaLinkedinIn, label: "LinkedIn", href: "https://www.linkedin.com/in/lukaslagler/" },
-              { icon: Mail, label: "Email", href: "mailto:luke.lagler@bluewin.ch" },
             ].map(({ icon: Icon, label, href }) => (
               <a
                 key={label}
@@ -269,6 +187,13 @@ function makeCards(isSpread: boolean) {
                 <Icon size={25} className="text-gray-950" />
               </a>
             ))}
+            <a
+              href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x6c;&#x75;&#x6b;&#x65;&#x2e;&#x6c;&#x61;&#x67;&#x6c;&#x65;&#x72;&#x40;&#x62;&#x6c;&#x75;&#x65;&#x77;&#x69;&#x6e;&#x2e;&#x63;&#x68;"
+              aria-label="Email"
+              className="flex items-center justify-center bg-gray-100 rounded-2xl p-3 border border-gray-200/60 hover:shadow-md hover:-translate-y-0.5 transition-all"
+            >
+              <Mail size={25} className="text-gray-950" />
+            </a>
           </div>
         </div>
       ),
@@ -281,6 +206,8 @@ function makeCards(isSpread: boolean) {
 export default function AboutGrid() {
   const [isSpread, setIsSpread] = useState(false);
   const cards = makeCards(isSpread);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.35 });
 
   useEffect(() => {
     const reset = () => setIsSpread(false);
@@ -294,19 +221,32 @@ export default function AboutGrid() {
   }, []);
 
   return (
-    <section id="about" className="py-32 overflow-hidden bg-[#F0F0F0]">
-      <div className="max-w-7xl mx-auto px-6 flex flex-col items-center">
-        <div className="flex items-center mb-4 bg-white rounded-full px-4 py-2 shadow-sm border border-gray-200/60">
-          <p className="text-xs font-bold uppercase tracking-widest text-foreground/40">About Me</p>
-        </div>
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">What I Bring to the Table</h2>
-          <p className="text-gray-500 italic max-w-2xl mx-auto">
+    <section id="about" className="overflow-hidden bg-white relative">
+
+      <motion.h2
+        initial={{ opacity: 0, y: 60 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.35 }}
+        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+        className="text-[20vw] font-bold tracking-tighter bg-linear-to-b from-blue-500 to-transparent bg-clip-text text-transparent text-center leading-none pt-24 mb-0 select-none"
+      >
+        about me
+      </motion.h2>
+
+      <div className="max-w-7xl mx-auto px-6 flex flex-col items-center relative z-10 pb-32">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="text-center mb-16"
+        >
+          <p className="text-gray-500 max-w-2xl mx-auto">
             Code, logic, and the art of looking productive while builds run.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="relative w-full flex flex-col items-center min-h-[700px]">
+        <div ref={sectionRef} className="relative w-full flex flex-col items-center min-h-[700px]">
           <AnimatePresence>
             {!isSpread && (
               <motion.button
@@ -315,7 +255,7 @@ export default function AboutGrid() {
                 exit={{ opacity: 0, scale: 1.2, filter: "blur(30px)" }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 onClick={() => setIsSpread(true)}
-                className="z-[100] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-10 py-5 bg-gray-950 text-white rounded-full font-bold shadow-[0_0_50px_rgba(0,0,0,0.15)] hover:scale-110 active:scale-95 transition-transform"
+                className="z-[100] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-5 sm:px-10 py-5 bg-gray-950 text-white rounded-full font-bold shadow-[0_0_50px_rgba(0,0,0,0.15)] hover:scale-110 active:scale-95 transition-transform text-sm sm:text-md"
               >
                 Find out about me
               </motion.button>
@@ -335,20 +275,20 @@ export default function AboutGrid() {
               <motion.div
                 key={card.id}
                 layout
-                initial={false}
-                animate={{
+                initial={{ opacity: 0, y: 50 }}
+                animate={isInView ? {
                   rotate: isSpread ? 0 : card.rotation,
                   x: isSpread ? 0 : card.x,
                   y: isSpread ? 0 : card.y,
                   scale: isSpread ? 1 : 0.92 - index * 0.02,
                   opacity: 1,
-                }}
+                } : { opacity: 0, y: 50 }}
                 transition={{
                   type: "spring",
                   stiffness: isSpread ? 350 : 200,
                   damping: isSpread ? 25 : 30,
                   mass: 1,
-                  delay: isSpread ? index * 0.04 : 0,
+                  delay: isInView && !isSpread ? index * 0.08 : isSpread ? index * 0.04 : 0,
                 }}
                 className={cn(
                   "rounded-[1.5rem] overflow-hidden border border-gray-200/50",

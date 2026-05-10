@@ -5,8 +5,7 @@ import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 const navLinks = [
-  { name: "Case Studies", href: "#work" },
-  { name: "Personal Project", href: "#personal" },
+  { name: "My Work", href: "#work" },
   { name: "About Me", href: "#about" },
 ];
 
@@ -75,14 +74,14 @@ export default function Navbar() {
               {link.name}
             </a>
           ))}
-          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-            <Link
-              href="/resume.pdf"
-              className="inline-flex items-center gap-2 px-5 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-full shadow-sm hover:border-gray-400 hover:text-gray-950 transition-all"
-            >
-              Download CV
-            </Link>
-          </motion.div>
+          <motion.a
+            href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x6c;&#x75;&#x6b;&#x65;&#x2e;&#x6c;&#x61;&#x67;&#x6c;&#x65;&#x72;&#x40;&#x62;&#x6c;&#x75;&#x65;&#x77;&#x69;&#x6e;&#x2e;&#x63;&#x68;&#x3f;&#x73;&#x75;&#x62;&#x6a;&#x65;&#x63;&#x74;&#x3d;&#x48;&#x65;&#x79;&#x25;&#x32;&#x30;&#x4c;&#x75;&#x6b;&#x61;&#x73;"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="inline-flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-black rounded-full shadow-sm hover:opacity-80 transition-all"
+          >
+            Get in Touch
+          </motion.a>
         </div>
       </div>
     </motion.nav>
